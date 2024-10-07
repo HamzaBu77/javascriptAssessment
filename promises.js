@@ -1,18 +1,18 @@
 // Question 1 : Write a function that returns a Promise which resolves after 2 seconds.
 // Use `.then()` to log a message when the Promise is resolved.
 
-// function dummyPromise(){
-//     return new Promise((res,rej) => {
-//         setTimeout(() => {
-//             res("I am resolved.")
-//         }, 2000)
-//     })
-// }
+function dummyPromise(){
+    return new Promise((res,rej) => {
+        setTimeout(() => {
+            res("I am resolved.")
+        }, 2000)
+    })
+}
 
-// dummyPromise()
-// .then((value) => {
-//     console.log(value);
-// })
+dummyPromise()
+.then((value) => {
+    console.log(value);
+})
 
 //   ---------------------               ---------------------------               -----------------------
 
@@ -20,18 +20,18 @@
 // Question 2 : Create a Promise that rejects with an error message.
 // Use `.catch()` to handle the error and log it to the console.
 
-// function dummyPromise(){
-//     return new Promise((res,rej) => {
-//         setTimeout(() => {
-//             rej("I am rejected.")
-//         }, 1000)
-//     })
-// }
+function dummyPromise1(){
+    return new Promise((res,rej) => {
+        setTimeout(() => {
+            rej("I am rejected.")
+        }, 1000)
+    })
+}
 
-// dummyPromise()
-// .catch((error) => {
-//     console.log(error);
-// })
+dummyPromise1()
+.catch((error) => {
+    console.log(error);
+})
 
 //    ---------------------                ---------------------------           ---------------------
 

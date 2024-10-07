@@ -1,20 +1,20 @@
 // Question 1 : Write a `do/while` loop that executes at least once and logs "Hello, World!" to the console.
 
-// do {
-//     console.log("Hello, World!");
-// } while (false);
+do {
+    console.log("Hello, World!");
+} while (false);
 
 //   ------------------------     -----------------------------------   -----------------------------------------
 
 // Question 2 : Use a `do/while` loop to generate random numbers between 1 and 10 until the number is 7.
 
 
-// let i;
+let i;
 
-// do {
-//     i = Math.floor(Math.random() * 10) + 1;
-//     console.log(i)
-// } while (i !== 7);
+do {
+    i = Math.floor(Math.random() * 10) + 1;
+    console.log(i)
+} while (i !== 7);
 
 //  --------------------------             ------------------------------------         ----------------------------
 

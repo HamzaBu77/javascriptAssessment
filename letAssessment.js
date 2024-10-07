@@ -1,11 +1,11 @@
 // Question 1 : Declare a variable using `let` inside a block scope (e.g., inside an `if` statement). 
 // Try accessing it outside the block. Write code to demonstrate what happens.
 
-// if (true){
-//     let first = "Hello";
-// }
+if (true){
+    let first = "Hello";
+}
 
-// console.log(first);
+console.log(first);
 
 // Explanation: Let have a block scope and when try to access it outside the loop of if condition it will give a 
 // Refrence Error because the first variable is only accessible in it's block scope and we cannot access a variable
@@ -17,13 +17,13 @@
 // -  Question 2 : Write code that shows variables declared with `let` cannot be redeclared in the same scope but
 // can be reassigned. Provide examples.
 
-// let same = "Same";
-// console.log("I am unchanged", same);
+let same = "Same";
+console.log("I am unchanged", same);
 
-// same = "Changed";
-// console.log("I am changed", same);
+same = "Changed";
+console.log("I am changed", same);
 
-// let same;
+// let same; // Uncomment to check what happens when you redeclared the variable.
 
 // Explanation: variable declared with let have a block and if we try to assign a new variable with let and with the
 // same name it will provide the SyntaxError of identifier has already been declared and cannot let you access the file

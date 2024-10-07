@@ -28,7 +28,7 @@ Hello();
 function Hello(){
     console.log("Hello! I am Hamza.")
 }
-// Demonstration: function declaration goes at the top of the main function through which we can access function even its is declared down in the heirarchy
+// Demonstration: function declaration goes at the top of the main function through which we can access function even it is declared down in the heirarchy
 // if we don't provide the initialization of the function it will give Reference Error other wise it will let us access the function.
 
 // ---------------------- ----------------------------------- ----------------------- -----------------------

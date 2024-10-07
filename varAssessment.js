@@ -2,10 +2,10 @@
 //-  Question 1 : Write a JavaScript code snippet where you declare a variable using `var`, assign it a value,
 //and then reassign it to a new value. Display both values in the console.
 
-// var first = "one";
-// console.log(first);
-// first = 2;
-// console.log(first);
+var first = "one";
+console.log(first);
+first = 2;
+console.log(first);
 
 
 //   ------------------      -------------------        ----------------------------
@@ -13,20 +13,20 @@
 //Question 2 : Declare a variable inside a function using `var`.
 //Try accessing it outside the function. What happens? Write code to demonstrate this behavior.
 
-// function varBehaviour(){
-//     var test = 9
-// }
+function varBehaviour(){
+    var test = 9
+}
 
-// {
-//     var test = "nine"
-// }
+{
+    var test = "nine"
+}
 
-// console.log(test);
+console.log(test);
 
 // Explanation: Although var have a global scope but it is respective to the block in which it is declared,
 // so test have a global scope with respect to the function but function have his own block of code that is 
-//not accessible by main scope scope of main function that it why it is giving reference error that test is 
-//not defined. if test is written in side a block that come in the range of main function it will print the value of test.
+//not accessible by main scope, that is why it is giving reference error that test is 
+//not defined. if test is written in side a block that come in the scope of main function it will print the value of test.
 
 //         ----------------         ----------------    ------------  -------------------
 

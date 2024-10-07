@@ -2,9 +2,9 @@
 // Try to reassign it to a new value. What happens? Write code to show this behavior.
 
 
-// const first = "Hello";
-
-// first = "Two";
+const first = "Hello";
+console.log(first);
+first = "Two";
 
 // Explanation: const variable cannot be redeclared and cannot be reassigned so when we try to run the file it will
 // give us the error of TypeError that we cannot assign new value to the const variable.
@@ -14,15 +14,15 @@
 // Question 2 : Create a `const` object with some properties.
 // Modify one of its properties. Is this allowed? Write code to demonstrate.
 
-// const obj = {
-//     name: "Hamza",
-//     lastName: "Asghar",
-//     age: 24,
-// }
+const obj = {
+    name: "Hamza",
+    lastName: "Asghar",
+    age: 24,
+}
 
-// obj.age = 26;
+obj.age = 26;
 
-// console.log(obj);
+console.log(obj);
 
 // Explanation: As we know the behaviour of const that it donot allow to redeclare and to reassign the value to the 
 // variable. But in case of Objects and Arrays what happen that the const is assigned with the reference of object

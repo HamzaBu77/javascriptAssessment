@@ -1,27 +1,27 @@
 // Question 1 : Write a function `greet(name, callback)` that takes a name and a callback function.
 // The function should print "Hello, [name]". Then, call the callback function. Demonstrate using this function.
 
-// function greet(name,callback){
-//     const greeting = `"Hello ${name}"`;
-//     return callback(greeting);
-// }
+function greet(name,callback){
+    const greeting = `"Hello ${name}"`;
+    return callback(greeting);
+}
 
-// function fullGreet(msg){
-//     console.log(msg);
-// }
+function fullGreet(msg){
+    console.log(msg);
+}
 
-// greet("Hamza", fullGreet);
+greet("Hamza", fullGreet);
 
 //  -------------------------              ----------------------------                  --------------------------
 
 // Question 2 : Create an array of numbers and use the `forEach` method with a 
 // callback function to log each number to the console.
 
-// const numbers = [1,2,3,4,5];
+const numbers = [1,2,3,4,5];
 
-// numbers.forEach((item) => {
-//     console.log(item);
-// })
+numbers.forEach((item) => {
+    console.log(item);
+})
 
 //      ------------------                -------------------------             ----------------------------
 
@@ -31,7 +31,7 @@
 function iAmAsynchronous(callback){
     let name = "Hello! I am Hamza";
     setTimeout(() => {
-        intro(name);
+        callback(name);
     }, 1000)
 }
 

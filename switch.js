@@ -1,69 +1,69 @@
 // Question 1 : Use a `switch` statement to assign a day of the week name to a variable based on a number from 1 to 7.
 
-// const num = 3;
+const number = 3;
 
-// let day;
+let day;
 
-// switch (num) {
-//     case 1:
-//         day = "Monday"
-//         break;
-//     case 2:
-//         day = "Tuesday"
-//         break;
-//     case 3:
-//         day = "Wednesday"
-//         break;
-//     case 4:
-//         day = "Thursday"
-//         break;
-//     case 5:
-//         day = "Friday"
-//         break;
-//     case 6:
-//         day = "Saturday"
-//         break;
-//     case 7:
-//         day = "Sunday"
-//         break;
-//     default:
-//         console.log("Invalid Input")
-//         break;
-// }
+switch (number) {
+    case 1:
+        day = "Monday"
+        break;
+    case 2:
+        day = "Tuesday"
+        break;
+    case 3:
+        day = "Wednesday"
+        break;
+    case 4:
+        day = "Thursday"
+        break;
+    case 5:
+        day = "Friday"
+        break;
+    case 6:
+        day = "Saturday"
+        break;
+    case 7:
+        day = "Sunday"
+        break;
+    default:
+        console.log("Invalid Input")
+        break;
+}
 
-// console.log(day);
+console.log(day);
 
 // ----------------------           --------------------------------          ------------------------------
 
 // Question 2 : Write a `switch` statement that takes a letter grade (A, B, C, D, F)
 // and logs a message like "Excellent", "Good", etc.
 
-// let grade = "A"
+let grade = "A"
 
-// switch (grade) {
-//     case "A":
-//         console.log("Excellent")
-//         break;
+switch (grade) {
+    case "A":
+        console.log("Excellent")
+        break;
 
-//     case "B":
-//         console.log("Good")
-//         break;
+    case "B":
+        console.log("Good")
+        break;
     
-//     case "C":
-//         console.log("Work Hard")
-//         break;
-//     case "D":
-//         console.log("Need Improvement")
-//         break;
+    case "C":
+        console.log("Work Hard")
+        break;
+    case "D":
+        console.log("Need Improvement")
+        break;
     
-//     case "F":
-//         console.log("Failed")
-//         break;
+    case "F":
+        console.log("Failed")
+        break;
     
-//     default:
-//         console.log("Not Graded Yet")
-//         break;
-// }
+    default:
+        console.log("Not Graded Yet")
+        break;
+}
 
 // -----------------------             --------------------------              -------------------------
 

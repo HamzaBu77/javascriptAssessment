@@ -1,31 +1,31 @@
 // Question 1 : Use a `while` loop to print numbers from 1 to 5.
 
-// let i = 1;
+let i = 1;
 
-// while (i < 6) {
-//     console.log(i)
-//     i++;
-// }
+while (i < 6) {
+    console.log(i)
+    i++;
+}
 
 // --------------------------          ----------------------------------------        ------------------------
 
 
 // Question 2 : Write a `while` loop that calculates the factorial of a given number.
 
-// let product = 0;
+let product = 0;
 
-// let j = 1;
+let j = 1;
 
-// while (j < 6){
-//     if( j === 1){
-//         product += j
-//     } else {
-//         product *= j
-//     }
-//     j++;
-// }
+while (j < 6){
+    if( j === 1){
+        product += j
+    } else {
+        product *= j
+    }
+    j++;
+}
 
-// console.log("Factorial is ",product);
+console.log("Factorial is ",product);
 
 // -----------------------------      --------------------------------------------     ------------------------------
 
