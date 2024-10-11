@@ -48,6 +48,36 @@ console.log( "DeepCopy", deepCopy );
 // 3. Modify the above deep copy function so that it handles circular references, i.e., when an object refers to itself.
 
 
+const modifiedOriginal = { name: "John", address: { city: "NYC" } }
+
+const modifiedDeepCopyFunction = ( obj, check = new Map() ) => {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
+
+    if (check.has(obj)) {
+        return check.get(obj); 
+    }
+
+    const deepCopyObject = Array.isArray( obj ) ? [] : {};
+
+    check.set( obj, deepCopyObject );
+
+    for ( const key in obj ) {
+        if (obj.hasOwnProperty( key )) {
+            deepCopyObject[ key ] = modifiedDeepCopyFunction( obj[key], check );
+        }
+    }
+
+    return deepCopyObject;
+};
+
+modifiedOriginal.self = modifiedOriginal;
+const modifiedCopied = modifiedDeepCopyFunction( modifiedOriginal );
+
+console.log( modifiedCopied );
+console.log( modifiedCopied.self === modifiedCopied );
+
 
 // 4. Given the following object, how would you manually create a deep copy without using `JSON.parse`/`JSON.stringify`,
 // but instead by iterating through its properties?

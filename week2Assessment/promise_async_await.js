@@ -90,24 +90,37 @@ const promisesArray = [
 const firstRejectedPromise = async ( promise ) => {
     const rejectedArray = [];
     
-    let rejectPromise = await Promise.race(promise)
-    .then( ( value ) => {
-        // for (const key of value){
-        //     console.log("Resolved",key);
-        // }
-        console.log("Resolved",value);
-    })
-    .catch( error => console.log("Rejected",error) );
+    // let rejectPromise = await Promise.race(promise)
+    // .then( ( value ) => {
+    //     // for (const key of value){
+    //     //     console.log("Resolved",key);
+    //     // }
+    //     console.log("Resolved",value);
+    // })
+    // .catch( error => console.log("Rejected",error) );
 
+    let index = 0;
+    const allSettledPromise = await Promise.allSettled( promise );
+    for( const promise of allSettledPromise ){
+        
+        if( promise.status === "rejected" ){
+            
+            rejectedArray.push( index );
+        }
+        index++;
+    }
 
-    // const allSettledPromise = await Promise.allSettled( promise );
-    // for( const promise of allSettledPromise ){
-    //     if( promise.status === "rejected" ){
-    //         rejectedArray.push( promise );
-    //     }
+    const promiseArrayForRace = rejectedArray.map( index => promise[index]);
+    // for( const index in rejectedArray){
+    //     promiseArrayForRace.push(promise[rejectedArray[index]]);
     // }
+    console.log("PromiseArrayFor Race", promiseArrayForRace);
+    // const responseRejectedPromise = await Promise.race(promiseArrayForRace)
+    // .then( value => console.log( "resolved Value", value ) )
+    // .catch( error => console.log( "rejected Value", error ) );
     // const rejectedPromise = await Promise.race( rejectedArray );
     // console.log( rejectedPromise.reason );
+    // console.log(responseRejectedPromise);
 }
 
 firstRejectedPromise( promisesArray );
