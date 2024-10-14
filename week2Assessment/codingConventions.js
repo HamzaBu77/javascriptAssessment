@@ -5,10 +5,10 @@ let outside = 0;
 
 if( true ) {
     let outside = "A";
-    console.log(outside);
+    console.log( `I am variable from a function scope and my value is ${outside}` );
 }
 
-console.log(outside);
+console.log( `I am variable from a main scope and my value is ${outside}.` );
 
 // The Output is as expected JavaScript create two variables the one outside the block has global scope but the one inside 
 // has block scope but when i log inside the block it is accessing the variable declared in the block scope means the inside
@@ -21,23 +21,25 @@ console.log(outside);
 
 function calculateTotalPrice(cart){
     try {
-        if( typeof cart !== "object" ){
-            throw new Error( "Cart has invalid argument." )
-        }
-        let sum = 0;
+        if( typeof cart !== "object" || cart === null || Object.keys(cart).length === 0 ){
+            throw new Error( "Cart is not an object or cart is empty." );
+        };
+
+        let sumOfCartItemsPrices = 0;
         for ( const item in cart ){
-            sum += cart[item];
-        }
-        console.log( `Total sum of all the items is ${sum}.` );
+            sumOfCartItemsPrices += cart[item];
+        };
+
+        console.log( `Total sum of all the items is ${sumOfCartItemsPrices}.` );
     } catch (error) {
         throw new Error(error);
     }
 }
 
 const cart = {
-    apples: 200,
-    mangoes: 150,
-    bananas: 100,
+    applesPrice: 200,
+    mangoesPrice: 150,
+    bananasPrice: 100,
 }
 
 calculateTotalPrice(cart);
@@ -50,7 +52,7 @@ calculateTotalPrice(cart);
 testFunction();
 
 const testFunction = function(){
-    console.log("I am a test Function");
+    console.log("I am a test Function From coding conventions.");
 }
 
 // Demonstration: Function decleration are hoisted to the top of the scope but when we assign a function expression it
@@ -83,9 +85,19 @@ function addTwoNumbers() {
 // 5. Demonstrate how to use self-documenting variables and function names to improve code readability
 // in the following scenario: A function that converts temperatures from Celsius to Fahrenheit.
 
-function celsiusToFahrenheit(celsius){
-    const fahrenheit = changingCelsiusToFahrenheit(celsius);
-    return fahrenheit;
+function celsiusToFahrenheit( celsius ){
+    try {
+        if ( celsius === null ){
+            throw new Error( "celsius cannot be null." );
+        };
+
+        const fahrenheit = changingCelsiusToFahrenheit( celsius );
+
+        return fahrenheit;
+    } catch ( error ) {
+        throw new Error( "OOPS! Server Error", error )
+    }
+    
 }
 
 // Demonstration: when we use logical naming variable and functions that are self explaining what they are for and 

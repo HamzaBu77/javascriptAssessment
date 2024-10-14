@@ -9,12 +9,16 @@ const person = {
     }
 }
 
+if( typeof person !== "object" || !person || Object.keys(person).length === 0 ){
+    new Error("Person is not an object or an empty object.");
+}
+
 const shallowCopy = person;
 
 shallowCopy.details.company = "Geeky";
 
-console.log( "Original Object", person )
-console.log( "Shallow Copy of Object", shallowCopy );
+console.log( "Original Person Object", person )
+console.log( "Shallow Copy of Person Object", shallowCopy );
 
 // Demonstration: When we assign an existing object to the new object it takes the reference of that existing object and
 // make a shallow copy of it and when we change something in the new object as it have assigned the reference of the
@@ -30,9 +34,18 @@ console.log( "Shallow Copy of Object", shallowCopy );
 
 const original = { name: "John", address: { city: "NYC" } }
 
+if( typeof original !== "object" || !original || Object.keys(original).length === 0 ){
+    new Error("Original is not an object or an empty object.");
+}
+
 let deepCopy = "";
 
 const deepCopyFunction = ( object ) => {
+
+    if( typeof object !== "object" || !object || Object.keys( object ).length === 0 ){
+        new Error("Original is not an object or an empty object.");
+    };
+
     deepCopy = JSON.parse( JSON.stringify( object ) );
 }
 
@@ -40,8 +53,8 @@ deepCopyFunction( original );
 
 deepCopy.address.city = "Lahore";
 
-console.log( "Original", original );
-console.log( "DeepCopy", deepCopy );
+console.log( "Original Object is ", original );
+console.log( "DeepCopy Object is", deepCopy );
 
 //   --------------------------           -------------------------------          ------------------------
 
@@ -50,33 +63,42 @@ console.log( "DeepCopy", deepCopy );
 
 const modifiedOriginal = { name: "John", address: { city: "NYC" } }
 
-const modifiedDeepCopyFunction = ( obj, check = new Map() ) => {
-    if (obj === null || typeof obj !== 'object') {
-        return obj;
-    }
+if( !modifiedOriginal ){
+    new Error("Modified Object is empty object.");
+}
 
-    if (check.has(obj)) {
-        return check.get(obj); 
-    }
-
-    const deepCopyObject = Array.isArray( obj ) ? [] : {};
-
-    check.set( obj, deepCopyObject );
-
-    for ( const key in obj ) {
-        if (obj.hasOwnProperty( key )) {
-            deepCopyObject[ key ] = modifiedDeepCopyFunction( obj[key], check );
+const modifiedDeepCopyFunction = (obj, check = new Map()) => {
+    try {
+        if ( !obj || typeof obj !== "object" ) {
+           return obj;
         }
-    }
 
-    return deepCopyObject;
+        if (check.has(obj)) {
+            return check.get(obj); 
+        }
+
+        const deepCopyObject = Array.isArray(obj) ? [] : {};
+
+        check.set(obj, deepCopyObject); // Track the current object
+
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                deepCopyObject[key] = modifiedDeepCopyFunction(obj[key], check); // Recursive call
+            }
+        }
+
+        return deepCopyObject;
+    } catch (error) {
+        console.log("OOPS! Internal Server Error:", error.message);
+        return null; // Optionally return null on error
+    }
 };
 
 modifiedOriginal.self = modifiedOriginal;
 const modifiedCopied = modifiedDeepCopyFunction( modifiedOriginal );
 
-console.log( modifiedCopied );
-console.log( modifiedCopied.self === modifiedCopied );
+console.log( "Modfied DeepCopy Object", modifiedCopied );
+console.log( "Showing that the function is supporting circular referencing", modifiedCopied.self === modifiedCopied );
 
 
 // 4. Given the following object, how would you manually create a deep copy without using `JSON.parse`/`JSON.stringify`,
@@ -86,19 +108,24 @@ console.log( modifiedCopied.self === modifiedCopied );
 // ```
 
 const manualDeepCopy = (obj) => {
-    if (obj === null || typeof obj !== 'object') {
-        return obj;
-    }
-
-    const deepCopyObject = Array.isArray(obj) ? [] : {};
-
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            deepCopyObject[key] = manualDeepCopy(obj[key]);
+    try {
+        if( !obj || typeof obj !== 'object' ){
+            return obj;
         }
+    
+        const deepCopyObject = {};
+    
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                deepCopyObject[key] = manualDeepCopy(obj[key]);
+            }
+        }
+    
+        return deepCopyObject;
+    } catch (error) {
+        console.log(`OOPS! Server Error: ${error}`);
     }
-
-    return deepCopyObject;
+    
 };
 
 const originalObject = { name: "Alice", age: 30, details: { height: 160, weight: 55 } };
@@ -106,7 +133,7 @@ const manualCopyObject = manualDeepCopy( originalObject );
 
 manualCopyObject.details.height = 100;
 
-console.log( "Object", originalObject );
+console.log( "Original Object manualDeepCopy", originalObject );
 console.log( "manualCopy", manualCopyObject );
 
 //   -----------------------------       --------------------------------         ----------------------------
@@ -121,15 +148,19 @@ const originalArray = [
     { id: 3, details: { age: 17, company: "GSoft" } },
 ]
 
+if( Array.isArray( originalArray ) === false || originalArray.length === 0 || !originalArray ){
+    throw new Error( "The OriginalArray is not an array or the array is empty." );
+}
+
 const shallowArraysOfObject = originalArray;
 const deepArraysOfObject = manualDeepCopy( originalArray );
 
 shallowArraysOfObject[0].details.company = "Geeky";
 deepArraysOfObject[0].details.company = "Tech Scale";
 
-console.log( "Original", originalArray );
-console.log( "Shallow", shallowArraysOfObject );
-console.log( "Deep", deepArraysOfObject );
+console.log( "Original Array", originalArray );
+console.log( "Shallow Copy of Array", shallowArraysOfObject );
+console.log( "Deep Copy of Array", deepArraysOfObject );
 
 
 //    --------------------------------       -------------------------        ------------------------------

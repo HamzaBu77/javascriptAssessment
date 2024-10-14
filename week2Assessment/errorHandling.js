@@ -1,18 +1,27 @@
 // 1. Write a function that fetches data from an API, and implement error handling using `try...catch`.
 // How would you log the error message when the API returns a 404 error?
 
-const fetchDataFromApi = async () => {
+const fetchDataFromApi = async ( url ) => {
     try {
-        const data = await fetch( 'https://jsonplaceholder.typicode.com/todos/500' );
+        if( url === null || url === "" || typeof url !== "string" ){
+            throw new Error( "URL is invalid " );
+        };
+
+        const data = await fetch( url );
         if( data.status === 404 ){
             throw new Error( "URL Not Found!" );
         }
+
+        const dataResponse = await data.json();
+
+        console.log( "Response From API : ", dataResponse );
+
     } catch (error) {
-        console.log( "OOPS", error )
+        console.log( "OOPS! Server Error", error )
     }
 }
 
-fetchDataFromApi();
+fetchDataFromApi( 'https://jsonplaceholder.typicode.com/todos/500' );
 
 //   ----------------------------         --------------------------------------        ----------------------------
 
@@ -21,15 +30,16 @@ fetchDataFromApi();
 
 const demonstratingUndefined = () => {
     try {
+        console.log( "I am Accessing the property undefined", undefined );
         let something;
-        console.log( something );
+        console.log( `Accessing an unassigned variable and it's value is ${something}.` );
 
         if( something === undefined ){
             throw new Error( "You are trying to access an undefined variable." );
         }
 
     } catch (error) {
-        console.log( "OOPS!", error );
+        console.log( "OOPS! An Error occured", error );
     }
 }
 
@@ -48,19 +58,19 @@ demonstratingUndefined();
 
 const customError = ( number ) => {
     try {    
-        if( number < 0 || typeof number !== "number" || number === undefined ){
+        if( number < 0 || ( typeof number !== "number" && typeof number !== "bigint" ) || number === undefined  || number === null ){
             throw new Error( "Invalid numbers in argument!" );
         }
-        const square = number ** 2;
-        console.log(square);
+        const squareRoot = Math.sqrt(number);
+        console.log( "Square root of a number is ", squareRoot );
         
     } catch (error) {
         console.log( "OOPS!", error );
     }
 }
 
-let onPurposeUndefined;
-customError(onPurposeUndefined);
+let onPurposeUndefined; // to Pass an invalid parameter.
+customError( 49 );
 
 // ------------------------            --------------------------------         -------------------------------
 
@@ -70,6 +80,10 @@ customError(onPurposeUndefined);
 const retryFetch = async ( url, retries = 3 ) => {
     for (let attempt = 1; attempt <= retries; attempt++){
         try {
+            if( url === null || url === "" || typeof url !== "string" ){
+                throw new Error( "Invalid URL or url not defined." );
+            };
+
             const fetchURL = await fetch( url );
 
             if( !fetchURL.ok ){
@@ -77,13 +91,13 @@ const retryFetch = async ( url, retries = 3 ) => {
             }
             attempt = 3;
             const data = await fetchURL.json();
-            console.log( "retryFetch",data );
+            console.log( "Query Fetched Successfully ", data );
             
         } catch ( error ) {
             console.error(`Attempt ${ attempt } failed: ${ error.message }`);
 
             if ( attempt === retries ) {
-              throw new Error(`Failed to fetch query from Database after ${ retries } attempts: ${ error.message }`);
+              console.log(`Failed to fetch query from Database after ${ retries } attempts: ${ error.message }`);
             }
         }
         
@@ -97,19 +111,48 @@ retryFetch('https://jsonplaceholder.typicode.com/todo/1');
 // 5. Create a scenario where an external API request times out, and you need to handle this timeout
 // using both `Promise.reject` and `setTimeout`. Implement error handling to retry the request twice before giving up.
 
-// const requestTimeOut = async () => {
-//         try {
-//             const data = await setTimeout(() => {
-//                 Promise.reject( new Error( "Request timed out while fetching an external API."));
-//             }, 2000);
+const requestTimeOut = async () => {
+        try {
+            // const data = await setTimeout(() => {
+            //     Promise.reject( new Error( "Request timed out while fetching an external API."));
+            // }, 2000);
 
-//             return data;
-//         } catch (error) {
-//             console.log( "OOPS!", error );
-//         }
-// }
+            // if( !data ) {
+            //     throw new Error( "Promise Failed to execute." );
+            // }
 
-// requestTimeOut();
+            return new Promise((res,rej) => {
+                setTimeout(() => {
+                    rej("Request Timed Out");
+                }, 1000)
+            });
+        } catch (error) {
+            console.log( "OOPS! An Error Occurred ", error );
+        }
+}
+
+const handlingRequestTimedOut = async () => {
+    for (let attempt = 1; attempt <= 3; attempt++ ){
+        try {
+            const waitForResponse = await requestTimeOut().
+            then(value => console.log(value))
+            .catch(error => console.log(error));
+
+            if( !waitForResponse ){
+                throw new Error( "Unable to get response from the External API." );
+            }
+
+            // console.log("Request Timed Out",waitForResponse);
+        } catch (error) {
+            console.log(` Attempting to fetch API in request timed out: Attempt ${attempt}`)
+            if( attempt === 3 ){
+                console.log(` ${attempt} attemps made but unable to fetch data from external API.`);
+            }
+        }
+    }
+}
+
+handlingRequestTimedOut();
 
 
 

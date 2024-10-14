@@ -4,13 +4,17 @@
 const getUserData = async () => {
     try {
         const userData = await fetch('https://jsonplaceholder.typicode.com/users/1');
-        if(!userData.ok){
-            throw new Error("Unable to fetch Users Data")
+        if( !userData.ok ){
+            throw new Error( "Unable to fetch Users Data" )
         }
         
-        const users = await userData.json();
+        const user = await userData.json();
 
-        console.log("GetUserData", users);
+        if( !user ){
+            throw new Error( "Error occurred during data conversion to json." )
+        }
+
+        console.log( "User Data fetched :", user );
         
     } catch (error) {
         console.log("Server stopped working", error);
@@ -32,6 +36,9 @@ getUserData();
 const fetchAndProcessData = async () => {
     try {
         const response = await fetchData();
+        if( !response ){
+            throw new Error( "Fetch API failed" );
+        }
         await processData( response );
     } catch ( error ) {
         console.log( "Server stopped working", error );
@@ -47,7 +54,15 @@ fetchAndProcessData();
 
 const getAllData = async ( urls ) => {
     try {
+        if( Array.isArray(urls) === false || !urls || urls.length === 0){
+            throw new Error( "Parameter is not an Array or empty" );
+        };
+
         const promiseResponses = await Promise.all(urls.map(url => fetch( url )));
+
+        if( !promiseResponses){
+            throw new Error( "Cannot Fetch URL." )
+        }
 
         const promisesData = promiseResponses.map(( data ) => {
             if(!data.ok){
@@ -59,7 +74,11 @@ const getAllData = async ( urls ) => {
 
         const data = await Promise.all( promisesData );
 
-        console.log( "GetAllData", data );
+        if( !data ){
+            throw new Error( "Error occurred while converting data into json." )
+        }
+
+        console.log( "Data fetched Successfully and the response is :", data );
         
     } catch (error) {
         console.log( "Server stopped working", error );
@@ -88,39 +107,48 @@ const promisesArray = [
 ]
 
 const firstRejectedPromise = async ( promise ) => {
-    const rejectedArray = [];
-    
-    // let rejectPromise = await Promise.race(promise)
-    // .then( ( value ) => {
-    //     // for (const key of value){
-    //     //     console.log("Resolved",key);
-    //     // }
-    //     console.log("Resolved",value);
-    // })
-    // .catch( error => console.log("Rejected",error) );
-
-    let index = 0;
-    const allSettledPromise = await Promise.allSettled( promise );
-    for( const promise of allSettledPromise ){
-        
-        if( promise.status === "rejected" ){
-            
-            rejectedArray.push( index );
+    try {
+        if( Array.isArray(promise) === false || promise.length === 0 || !promise ){
+            throw new Error( "The parameter is not an array or the array is empty" );
         }
-        index++;
-    }
+        const rejectedArray = [];
+        // let rejectPromise = await Promise.race(promise)
+        // .then( ( value ) => {
+        //     // for (const key of value){
+        //     //     console.log("Resolved",key);
+        //     // }
+        //     console.log("Resolved",value);
+        // })
+        // .catch( error => console.log("Rejected",error) );
 
-    const promiseArrayForRace = rejectedArray.map( index => promise[index]);
-    // for( const index in rejectedArray){
-    //     promiseArrayForRace.push(promise[rejectedArray[index]]);
-    // }
-    console.log("PromiseArrayFor Race", promiseArrayForRace);
-    // const responseRejectedPromise = await Promise.race(promiseArrayForRace)
-    // .then( value => console.log( "resolved Value", value ) )
-    // .catch( error => console.log( "rejected Value", error ) );
-    // const rejectedPromise = await Promise.race( rejectedArray );
-    // console.log( rejectedPromise.reason );
-    // console.log(responseRejectedPromise);
+        let index = 0;
+        const allSettledPromise = await Promise.allSettled( promise );
+        if( !allSettledPromise ){
+            throw new Error("Error resolving Promises");
+        }
+        for( const promise of allSettledPromise ){
+            
+            if( promise.status === "rejected" ){
+                
+                rejectedArray.push( index );
+            }
+            index++;
+        }
+
+        const promiseArrayForRace = rejectedArray.map( index => promise[index]);
+        // for( const index in rejectedArray){
+        //     promiseArrayForRace.push(promise[rejectedArray[index]]);
+        // }
+        console.log("PromiseArrayFor Race", promiseArrayForRace);
+        // const responseRejectedPromise = await Promise.race(promiseArrayForRace)
+        // .then( value => console.log( "resolved Value", value ) )
+        // .catch( error => console.log( "rejected Value", error ) );
+        // const rejectedPromise = await Promise.race( rejectedArray );
+        // console.log( rejectedPromise.reason );
+        // console.log(responseRejectedPromise);
+    } catch (error) {
+        throw new Error( "OOPS! An error occurred", error );
+    }
 }
 
 firstRejectedPromise( promisesArray );
@@ -133,21 +161,31 @@ firstRejectedPromise( promisesArray );
 const retryFetch = async ( url, retries = 3 ) => {
     for (let attempt = 0; attempt < retries; attempt++){
         try {
+            if( typeof url !== "string" || !url ){
+                throw new Error( "URL passed is Invalid." );
+            };
+
             const fetchURL = await fetch( url );
 
             if( !fetchURL.ok ){
                 throw new Error( "Unable to Fetch Data!" )
-            }
+            };
+
             attempt = 3;
             const data = await fetchURL.json();
+
+            if( !data ){
+                throw new Error( "Error while converting data in to json." )
+            };
+
             console.log( "retryFetch",data );
             
         } catch ( error ) {
-            console.error(`Attempt ${ attempt } failed: ${ error.message }`);
+            console.log(`Attempt ${ attempt } failed: ${ error.message }`);
 
-            if ( attempt === retries ) {
-              throw new Error(`Failed to fetch after ${ retries } attempts: ${ error.message }`);
-            }
+            if ( attempt === retries - 1 ) {
+              throw new Error(`After ${ retries } attempts: ${ error.message }`);
+            };
         }
         
     }

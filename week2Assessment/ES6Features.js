@@ -5,9 +5,17 @@
 
 const person = { name: "Jane", age: 25, city: "San Francisco" };
 
+if( typeof person !== "object" || Object.keys(person).length === 0 || person === undefined || person === null ){
+    new Error( "Person Object is Invalid." );
+};
+
 const { name, age } = person;
 
-console.log( name, age );
+if( !name || !age ){
+    new Error( "Property donot exist or are undefined or null." );
+};
+
+console.log( "Printing Name and Age parameter through destructuring", name, age );
 
 //  ---------------------------------          ---------------------------------      -------------------------
 
@@ -15,7 +23,7 @@ console.log( name, age );
 // Then, modify the arrow function to return an object that contains both the original number and its square.
 
 const square = ( number ) => {
-    if( number < 0 || typeof number !== "number" ){
+    if( number < 0 || ( typeof number !== "number" && typeof number !== "bigint") || !number ){
         throw new Error("Invalid Number");
     }
     return number ** 2;
@@ -28,8 +36,8 @@ const squareAndNumber = ( number ) => {
     return { number, square: number ** 2 };
 }
 
-console.log(square( 2 ));
-console.log(squareAndNumber( 3 ));
+console.log( "Return value with only Square is ", square( 2 ));
+console.log( "Return value with Object containing number and a square is ", squareAndNumber( 3 ));
 
 //  ----------------------         --------------------------------------        -----------------------------
 
@@ -37,7 +45,14 @@ console.log(squareAndNumber( 3 ));
 
 const objectOne = { firstName: "Hamza", details: { hobby: "coding", language: "JavaScript" } };
 
+if( typeof objectOne !== "object" || !objectOne  || Object.keys(objectOne).length === 0 ){
+    new Error( "ObjectOne is invalid or empty." )
+}
 const objectTwo = { lastName: "Butt", bio: { age: 25, company: "GSoft" } };
+
+if( typeof objectTwo !== "object" || !objectTwo  || Object.keys(objectTwo).length === 0 ){
+    new Error( "ObjectTwo is invalid or empty." )
+}
 
 const mergedObject = {
     ...objectOne,
@@ -46,16 +61,28 @@ const mergedObject = {
 
 const arrayOne = [ 1, 2, 3, 4, 5 ];
 
+if ( Array.isArray(arrayOne) === false || !arrayOne || arrayOne.length === 0 ){
+    new Error( "Array is Invalid or empty." )
+}
+
 const arrayTwo = [ 6, 7, 8, 9, 10 ];
+
+if ( Array.isArray(arrayOne) === false || !arrayOne || arrayOne.length === 0 ){
+    new Error( "Array is Invalid or empty." )
+}
+
+if ( !arrayOne && !arrayTwo ) {
+    new Error( "One of the Object or both of them are invalid." )
+}
 
 const mergedArray = [ ...arrayOne, ...arrayTwo ];
 
-console.log( "object1", objectOne);
-console.log( "object2", objectTwo);
-console.log( "merged object", mergedObject);
-console.log( "array1", arrayOne);
-console.log( "array2", arrayTwo);
-console.log( "merged array", mergedArray);
+console.log( "Values of object1 is ", objectOne);
+console.log( "Values of object2 is ", objectTwo);
+console.log( "Values after merging the two objects is ", mergedObject);
+console.log( "Values of array1 is ", arrayOne);
+console.log( "Values of array2 is ", arrayTwo);
+console.log( "Values after merging the two arrays is ", mergedArray);
 
 
 // ---------------------------------         ------------------------------------         -----------------------
@@ -64,13 +91,21 @@ console.log( "merged array", mergedArray);
 // `firstName`, `lastName`, and `age` properties, and logs them to the console.
 
 const destructuringFunction = ( object ) => {
-    const { firstName, lastName, age } = object;
-
-    if( !firstName || !lastName || !age) {
-        throw new Error( "Properties Required are missing!" );
+    try {
+        if( typeof object !== "object" || !object || Object.keys(object).length === 0 ){
+            throw new Error( "Object is Invalid" );
+        };
+        const { firstName, lastName, age } = object;
+    
+        if( !firstName || !lastName || !age) {
+            throw new Error( "Properties Required are missing!" );
+        }
+    
+        console.log(`The name of the person is ${ firstName } ${ lastName } and he is ${ age } years old.`);
+    } catch (error) {
+        throw new Error( "An Error Occurred ", error );
     }
-
-    console.log(`The name of the person is ${ firstName } ${ lastName } and he is ${ age } years old.`);
+    
 }
 
 const friend = {
@@ -91,16 +126,16 @@ destructuringFunction(friend);
 const multipleArguments = ( ...args ) => {
     try {    
         for( const item of args){
-            if( item < 0 || typeof item !== "number" ){
+            if( item < 0 || ( typeof item !== "number" && typeof item !== "bigint" ) || !item ){
                 throw new Error( "Invalid numbers in argument!" );
             }
         }
     
         let sum = 0;
-        const sumOfNumbers = args.map( item => sum += item )
-        console.log(sum);
+        const sumOfNumbers = args.map( item => sum += item );
+        console.log( "The total sum using Arbitrary numbers of arguments is ", sum );
     } catch (error) {
-        console.log( "OOPS!", error );
+        console.log( "OOPS! An Error Occurred ", error );
     }
 
 }
